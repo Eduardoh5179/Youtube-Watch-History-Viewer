@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Watch History viewer</title>
+    <link id="theme" rel="stylesheet" href="watchHistoryViewer.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header-container">
+        <button id="logo-btn" style="background-color:none;cursor: pointer;">
+            <img src="assets\image.png" alt="logo" style="height: 25px; width: 40px; display: none" id="logoid">
+        </button>
+        <script>
+            const button = document.getElementById("logo-btn");
+            button.onclick = function(){
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        </script>
+        <div id="backBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+        </div>
+        <div class="middle" id="middle">
+            <div class="searchbar-container" id="searchbarContainer" style="display: none;">
+                <input type="text" placeholder="Search" class="search-bar" id="searchBar" autocomplete="off"> 
+                <i class="material-icons" id="close-btn">close</i>
+                <button class="btn-search" id="btnSearch"> 
+                    <i class="material-icons" style="display:flex; align-items: center; justify-content: center;">search</i> 
+                </button> <br>
+            </div>
+            <button id="btnSearch2" class="btn-search2" style="display:none">
+                <i class="material-icons">search</i> 
+            </button>
+            
+        <button id="filterBtn" style="display:none">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/></svg>
+        </button>
+    </div>
+    <a>
+        <button onclick="togleMode()" class="side-button" id="sideBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm40-83q119-15 199.5-104.5T800-480q0-123-80.5-212.5T520-797v634Z"/></svg>
+        </button>
+    </a> 
+
+</div>
+<div class="input-container" id="inputContainer">
+</div> 
+<div class="popup-container" id="popup">
+    <p>Filter by date</p>
+    <div class="popup-span1"> 
+        <span>before: </span><input type="date" id="beforeDate"> <br>
+    </div>
+    <div class="popup-span2">
+        <span>after: </span><input type="date" id="afterDate"> <br>
+    </div>
+    <button id="btnDate">update</button> <br>
+</div>
+
+
+<div class="content">
+            <div class = "logo-container" id="logo">
+                <img id="initialLogo" src="assets\1734228126231.png" alt="logo" style="width:90%; margin-top:4.8%; min-width:350px ;">
+            </div>
+
+            <p class="text" id="txt">
+                Youtube Watch History viewer is an unofficial project to view all your downloaded watch history from youtube. Since there is no such way of seeing those .json files pratically, it's an interesting tool to use to have a backup of your account videos watched.
+            </p>
+            <div class="upload-container">
+                <label for="file" class="inputText" id="inputText">Upload your .json file of youtube watch history</label> <br>
+                <button class="upload-btn" id="fileButton">Upload <i class="icon"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFFFFF"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                    </i>
+                </button>
+                <input type="file" id="fileInput" hidden> 
+                <div id="fileContent"></div>
+
+            </div>
+    </div>
+        
+
+    <h1 class="title" id="title" style="display:none">
+        Watch History
+    </h1>
+
+    <div id="outputContainer">
+        <div id="output"></div>
+    </div>
+
+    <script src=search.js></script>
+    <script src="watchHistoryViewer.js"></script>
+
+                   <script>
+                    const fileButton = document.getElementById("fileButton");
+                    const fileInput = document.getElementById("fileInput");
+                    const fileContent = document.getElementById("fileContent");
+                    const inputText= document.getElementById("inputText");
+                    const text = document.getElementById("txt");
+                    const logo = document.getElementById("logo");
+                    const title = document.getElementById("title");
+                    const filter = document.getElementById("filterBtn");
+                    const searchbarContainer = document.getElementById("searchbarContainer");
+                    const closeIcon = document.getElementById("closeInput");
+                    const logoid = document.getElementById("logoid");
+                    let jsonData;
+                
+                    fileButton.addEventListener("click", () => {
+                        fileInput.click();
+                    });
+                
+                    fileInput.addEventListener("change", (event) => {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            
+                            reader.onload = function(e) {
+                                try{
+                                    jsonData = JSON.parse(e.target.result);
+                                    window.jsonData = jsonData;
+                                    
+                                    fileButton.style.display = "none";
+                                    text.style.display = "none";
+                                    inputText.style.display = "none";
+                                    logo.style.display = "none";
+                                    title.style.display = "";
+                                    filter.style.display = "";
+                                    searchbarContainer.style.display = "";
+                                    logoid.style.display = "";
+                                    checkSize();
+                                    window.addEventListener("resize",checkSize);
+                                    
+                                    if(typeof window.normalLoad === 'function'){
+                                        normalLoad(jsonData);
+                                    }
+                                } catch(error){
+                                fileContent.textContent = "Erro, não é um json";
+                                console.error("erro",error);
+                                }
+                            };
+                            
+                            reader.readAsText(file); 
+                        
+                        }
+                    });
+
+                </script>
+</body>
+</html>
