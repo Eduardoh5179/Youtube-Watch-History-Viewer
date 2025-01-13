@@ -115,6 +115,7 @@
                 
                     fileInput.addEventListener("change", (event) => {
                         const file = event.target.files[0];
+                        fileContent.textContent = "";
                         if (file) {
                             const reader = new FileReader();
                             
@@ -139,7 +140,6 @@
                                     }
                                 } catch(error){
                                 fileContent.textContent = "Invalid file";
-                                console.error("erro",error);
                                 }
                             };
                             
