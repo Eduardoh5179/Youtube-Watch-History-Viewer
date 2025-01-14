@@ -9,7 +9,7 @@ YouTube Watch History Viewer is a tool to help users to track their recently wat
   
   ![alt text](images/Check.png)
   
-- Under **Watch History** option choose the .json format
+- Click in the various formats option, then  under **historical**, choose the .json format
 
   ![alt text](images/json.png)
   
