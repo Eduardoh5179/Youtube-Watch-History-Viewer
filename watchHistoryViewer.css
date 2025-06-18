@@ -547,7 +547,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-@media(max-width:405px){
+@media screen and (max-width:405px){
     #outputContainer .day-group .output .video-container img{
         width:196px;
         height:118px
