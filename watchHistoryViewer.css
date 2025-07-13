@@ -99,6 +99,7 @@ body{
     border: 1px solid var(--bordergray);
     height: 100%;
     width: 9%;
+    min-width: 40px;
     color:white;
     margin-right: 30px;
     top:0;
@@ -410,7 +411,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin: auto;
     margin-top: 23px;
     margin-bottom:20px;
-
 }
 
 .content .upload-container{
@@ -509,7 +509,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     word-wrap: break-word;
     overflow: hidden;
     margin: 0;
-    width: 246px;
+    width: 210px;
     color:var(--textwhite);
     font-family: "Roboto",Arial,sans-serif;
     line-height: 1.4rem;
