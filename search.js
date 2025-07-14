@@ -131,6 +131,7 @@
                             a.href = decodedUrl;
                             a.setAttribute("data-date", `${year}-${month}-${day}`);
                             a.target = "_blank";
+                            a.id="videoTarget";
     
                             const img = document.createElement("img");
                             img.src = `https://img.youtube.com/vi/${VIDEOID}/hqdefault.jpg`;
@@ -146,6 +147,62 @@
                             const text = document.createTextNode(value.title.split("Watched")[1]);
                             p.appendChild(text);
                             videoText.appendChild(p);
+
+                            const link = document.createElement("button");
+                            link.classList.add("link");
+                            const linkIcon = document.createElement("span");
+                            link.appendChild(linkIcon);
+                            linkIcon.classList.add("material-symbols-outlined");
+                            linkIcon.textContent="more_vert";
+
+                            const containerInfo = document.createElement("div");
+                            containerInfo.classList.add("containerInfo");
+                            containerInfo.id = "containerInfo";
+
+                            const btnLink = document.createElement("button");
+                            btnLink.classList.add("btnLink");
+                            btnLink.textContent="copy link";
+                            
+                            containerInfo.appendChild(btnLink);
+                
+                
+                            link.onclick = (event) =>{
+                                event.preventDefault();
+                                event.stopPropagation();
+                                
+                                if (containerInfo.style.display === "block") {
+                                    containerInfo.style.display = "none";
+                                } else {
+                                    containerInfo.style.display = "block";
+                                }
+                            }
+                            
+                            div.appendChild(containerInfo);
+
+                btnLink.onclick = (event) =>{
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    const container = link.closest(".video-container");
+                    const videoLink = container.querySelector("a"); 
+                    const linkCopy = videoLink.href;
+                    const linkMessage = document.querySelector(".linkCopied");
+
+                    navigator.clipboard.writeText(linkCopy).then(() => {
+                        linkMessage.classList.add("active");
+                        
+                        setTimeout(()=>{
+                            linkMessage.classList.remove("active");
+                        }, 2500);
+                    });
+                }
+
+                
+                
+                const videoHead = document.createElement("div");
+                videoHead.classList.add("videoHead");
+                
+                
     
                             a.appendChild(img);
                             a.appendChild(videoText);

@@ -92,6 +92,7 @@ function normalLoad(values){
                 a.href = decodedUrl;
                 a.setAttribute("data-date", completeDate);
                 a.target = "_blank";
+                a.id = "videoTarget";
 
                 const img = document.createElement("img");
                 img.src = `https://img.youtube.com/vi/${VIDEOID}/hqdefault.jpg`;
@@ -101,26 +102,84 @@ function normalLoad(values){
                 const div = document.createElement ("div");
                 div.classList.add("video-container");
 
+
                 const videoText = document.createElement("a");
                 videoText.href = decodedUrl;
                 const p = document.createElement("p");
                 const text = document.createTextNode(value.title.split("Watched")[1]);
                 const stext = value.title.split("Watched")[1];
                 
-                let isAd;
+                const link = document.createElement("button");
+                link.classList.add("link");
+                const linkIcon = document.createElement("span");
+                link.appendChild(linkIcon);
+                linkIcon.classList.add("material-symbols-outlined");
+                linkIcon.textContent="more_vert";
 
+                const containerInfo = document.createElement("div");
+                containerInfo.classList.add("containerInfo");
+                containerInfo.id = "containerInfo";
+
+                const btnLink = document.createElement("button");
+                btnLink.classList.add("btnLink");
+                btnLink.textContent="copy link";
+                
+                containerInfo.appendChild(btnLink);
+                
+                
+                link.onclick = (event) =>{
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    if (containerInfo.style.display === "block") {
+                        containerInfo.style.display = "none";
+                    } else {
+                        containerInfo.style.display = "block";
+                    }
+                }
+                
+                div.appendChild(containerInfo);
+
+                btnLink.onclick = (event) =>{
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    const container = link.closest(".video-container");
+                    const videoLink = container.querySelector("a"); 
+                    const linkCopy = videoLink.href;
+                    const linkMessage = document.querySelector(".linkCopied");
+
+                    navigator.clipboard.writeText(linkCopy).then(() => {
+                        linkMessage.classList.add("active");
+                        
+                        setTimeout(()=>{
+                            linkMessage.classList.remove("active");
+                        }, 2500);
+                    });
+                }
+
+                
+                
+                const videoHead = document.createElement("div");
+                videoHead.classList.add("videoHead");
+                
+                
+                let isAd;
+                
                 if (value.subtitles && value.subtitles.length > 0) {
                     isAd = false;    
                 }
                 else{
                     isAd = true;
                 }
-
+                
                 p.title = stext;
                 
                 p.appendChild(text);
-                videoText.appendChild(p);
-        
+                videoHead.appendChild(p);
+                videoText.appendChild(videoHead);
+                videoHead.appendChild(link);
+                
                 a.appendChild(img);
                 a.appendChild(videoText);
                 div.appendChild(a);
@@ -231,7 +290,7 @@ window.normalLoad = normalLoad;
     const middle = document.getElementById("middle");
     let sizeEvt = false;
   
-
+    
     filterBtn.addEventListener('click',(e)=>{
         e.stopPropagation();
         if (popup.style.display === "block") {
@@ -264,9 +323,29 @@ window.normalLoad = normalLoad;
   
     window.addEventListener('click', (e) => {
         if (e.target == popup) {
-          popup.style.display = 'none'; 
+            popup.style.display = 'none'; 
         }
     });
+
+    /* window.addEventListener('click', ({target})=>{
+    //     console.log(target);
+    //     console.log(containerInfo);
+    //      if(target == containerInfo){
+    //          alert('penis')
+    //      }
+     });
+
+    document.addEventListener('click', (e)=>{
+        document.querySelectorAll('.containerInfo').forEach(container => {
+            const containerInfo = document.querySelector('.containerInfo');
+            if(!containerInfo) return;
+
+            if(containerInfo && e.target != containerInfo && containerInfo.style.display== "block"){
+                containerInfo.style.display='none';
+            }
+    });
+})
+*/
 
     function togleMode(){
         const initialLogo = document.getElementById("initialLogo");    
